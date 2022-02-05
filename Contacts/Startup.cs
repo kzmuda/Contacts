@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Contacts
 {
@@ -27,7 +28,13 @@ namespace Contacts
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddMvcOptions(options =>
+                {
+                    options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Contacts", Version = "v1" });
