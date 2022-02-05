@@ -17,6 +17,6 @@ namespace Contacts.Models
 
         public string Name => $"{FirstName} {LastName}";
 
-        public List<PhoneDto> Phones { get; set; }
+        public List<PhoneDto> Phones { get; set; } = new List<PhoneDto>();
     }
 }
