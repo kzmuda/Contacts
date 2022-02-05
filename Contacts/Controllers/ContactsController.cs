@@ -128,6 +128,10 @@ namespace Contacts.Controllers
 
             patchDocument.ApplyTo(contactToUpdate);
 
+            contact.FirstName = contactToUpdate.FirstName;
+            contact.LastName = contactToUpdate.LastName;
+            contact.Email = contact.Email;
+
             return NoContent();
         }
     }

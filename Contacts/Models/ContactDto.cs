@@ -16,5 +16,7 @@ namespace Contacts.Models
         public string Email { get; set; }
 
         public string Name => $"{FirstName} {LastName}";
+
+        public List<PhoneDto> Phones { get; set; }
     }
 }

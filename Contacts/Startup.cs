@@ -30,6 +30,7 @@ namespace Contacts
 
             services
                 .AddControllers()
+                .AddNewtonsoftJson()
                 .AddMvcOptions(options =>
                 {
                     options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
