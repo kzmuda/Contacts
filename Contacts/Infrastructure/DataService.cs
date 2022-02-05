@@ -9,6 +9,8 @@ namespace Contacts.Infrastructure
     public class DataService
     {
         public static DataService Current { get; } = new DataService();
+
+        public static int NextId => Current.Contacts.Count + 1;
         public List<ContactDto> Contacts { get; set; }
         public DataService()
         {
