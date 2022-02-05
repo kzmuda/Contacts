@@ -16,10 +16,15 @@ namespace Contacts.Controllers
     public class ContactsController : ControllerBase
     {
         // GET http://localhost:2324/api/contacts
+        // GET http://localhost:2324/api/contacts?filter=ski
         [HttpGet]
-        public IActionResult GetAllContacts()
+        public IActionResult GetAllContacts([FromQuery] string filter)
         {
             var contacts = DataService.Current.Contacts;
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                contacts = contacts.Where(x => x.Name.Contains(filter)).ToList();
+            }
 
             return Ok(contacts);
         }
