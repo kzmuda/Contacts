@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Contacts.Infrastructure;
 using Contacts.Models;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Contacts.Controllers
 {
@@ -77,6 +78,55 @@ namespace Contacts.Controllers
             }
 
             DataService.Current.Contacts.Remove(contact);
+
+            return NoContent();
+        }
+
+
+        // public IActionResult UpdateContact(int id)
+        // {
+        // }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateContact(int id, [FromBody] UpdateContactDto contactToUpdate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var contact = DataService.Current.Contacts.FirstOrDefault(x => x.Id == id);
+
+            if (contact == null)
+            {
+                return NotFound();
+            }
+
+            contact.FirstName = contactToUpdate.FirstName;
+            contact.LastName = contactToUpdate.LastName;
+            contact.Email = contactToUpdate.Email;
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult UpdateContactPartial(int id, [FromBody] JsonPatchDocument<UpdateContactDto> patchDocument)
+        {
+            var contact = DataService.Current.Contacts.FirstOrDefault(x => x.Id == id);
+
+            if (contact == null)
+            {
+                return NotFound();
+            }
+
+            var contactToUpdate = new UpdateContactDto()
+            {
+                FirstName = contact.FirstName,
+                LastName = contact.LastName,
+                Email = contact.Email
+            };
+
+            patchDocument.ApplyTo(contactToUpdate);
 
             return NoContent();
         }
